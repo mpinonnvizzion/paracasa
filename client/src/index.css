@@ -1,0 +1,59 @@
+/* ── Design tokens ── */
+:root {
+  --sand:     #F5F0E8;
+  --terra:    #C4622D;
+  --terra-dk: #9E4A1E;
+  --ink:      #1A1208;
+  --ink-60:   #1A120899;
+  --ink-20:   #1A120833;
+  --leaf:     #2D6A4F;
+  --leaf-lt:  #D8EDE4;
+  --gold:     #E8A838;
+  --white:    #FFFFFF;
+
+  --font-serif: 'DM Serif Display', Georgia, serif;
+  --font-sans:  'DM Sans', system-ui, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --shadow: 0 2px 16px rgba(26,18,8,0.10);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sand:    #1C1710;
+    --ink:     #F5F0E8;
+    --ink-60:  #F5F0E899;
+    --ink-20:  #F5F0E833;
+    --white:   #2A2318;
+    --leaf-lt: #1A3328;
+  }
+}
+
+:root[data-theme="dark"] {
+  --sand:    #1C1710;
+  --ink:     #F5F0E8;
+  --ink-60:  #F5F0E899;
+  --ink-20:  #F5F0E833;
+  --white:   #2A2318;
+  --leaf-lt: #1A3328;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--sand);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

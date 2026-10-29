@@ -1,0 +1,134 @@
+.compare-form-wrap {
+  padding: 0 1.25rem 2.5rem;
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+.compare-form {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.compare-form__row {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.compare-form__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.compare-form__group label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-60);
+}
+
+.compare-form__group select {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--sand);
+  border: 1.5px solid var(--ink-20);
+  border-radius: var(--radius-sm);
+  padding: 0.6rem 0.75rem;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231A1208' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+}
+
+.compare-form__amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.compare-form__chip {
+  background: var(--sand);
+  border: 1.5px solid var(--ink-20);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.9rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.compare-form__chip:hover {
+  border-color: var(--terra);
+}
+
+.compare-form__chip.active {
+  background: var(--leaf-lt);
+  border-color: var(--leaf);
+  color: var(--leaf);
+  font-weight: 600;
+}
+
+.compare-form__custom {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--sand);
+  border: 1.5px solid var(--ink-20);
+  border-radius: var(--radius-sm);
+  padding: 0.45rem 0.75rem;
+  width: 6.5rem;
+}
+
+.compare-form__custom:focus {
+  outline: 2px solid var(--terra);
+  outline-offset: 1px;
+}
+
+.compare-form__submit {
+  background: var(--terra);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  width: 100%;
+}
+
+.compare-form__submit:hover:not(:disabled) {
+  background: var(--terra-dk);
+}
+
+.compare-form__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (min-width: 480px) {
+  .compare-form__row {
+    flex-direction: row;
+  }
+  .compare-form__group:first-child {
+    flex: 0 0 auto;
+    min-width: 13rem;
+  }
+  .compare-form__group:last-child {
+    flex: 1;
+  }
+}

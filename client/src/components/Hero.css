@@ -1,0 +1,31 @@
+.hero {
+  padding: 3.5rem 1.25rem 2rem;
+  max-width: 40rem;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero__eyebrow {
+  font-style: italic;
+  color: var(--terra);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  letter-spacing: 0.01em;
+}
+
+.hero__headline {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 7vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+
+.hero__sub {
+  color: var(--ink-60);
+  font-size: 1.05rem;
+  line-height: 1.65;
+  max-width: 32rem;
+  margin: 0 auto;
+}
