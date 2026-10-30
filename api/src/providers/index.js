@@ -1,14 +1,16 @@
 import { fetchWise } from './wise.js'
+import { fetchFrankfurter } from './frankfurter.js'
 import { fetchRemitly } from './remitly.js'
 import { fetchWesternUnion } from './westernunion.js'
 import { fetchXe } from './xe.js'
 
-const PROVIDERS = [fetchWise, fetchRemitly, fetchWesternUnion, fetchXe]
+const PROVIDERS = [fetchWise, fetchFrankfurter, fetchRemitly, fetchWesternUnion, fetchXe]
+const PROVIDER_NAMES = ['Wise', 'Market Average', 'Remitly', 'Western Union', 'XE']
 
 /**
  * Fetch rates from all providers in parallel.
- * Failed providers are included with error=true so the UI can show a "unavailable" slot.
- * Results are sorted by receivedAmount descending (best deal first).
+ * Failed providers are included with error=true so the UI can show an "unavailable" slot.
+ * Results are ordered: real rates (by receivedAmount desc) → reference → affiliates → errors.
  */
 export async function compareRates({ amount, from, to }) {
   const settled = await Promise.allSettled(
@@ -20,9 +22,9 @@ export async function compareRates({ amount, from, to }) {
       return result.value
     }
     // Return a placeholder for failed providers so UI can acknowledge them
-    const name = ['Wise', 'Remitly', 'Western Union', 'XE'][i]
+    const name = PROVIDER_NAMES[i]
     return {
-      provider: name.toLowerCase().replace(' ', ''),
+      provider: name.toLowerCase().replace(/\s+/g, '_'),
       name,
       error: true,
       rate: null,
@@ -33,10 +35,16 @@ export async function compareRates({ amount, from, to }) {
     }
   })
 
-  // Sort: successful results by receivedAmount desc, errors last
+  const rank = (r) => {
+    if (r.error) return 3
+    if (r.isAffiliate) return 2
+    if (r.isReference) return 1
+    return 0
+  }
+
   results.sort((a, b) => {
-    if (a.error && !b.error) return 1
-    if (!a.error && b.error) return -1
+    const rankDiff = rank(a) - rank(b)
+    if (rankDiff !== 0) return rankDiff
     return (b.receivedAmount ?? 0) - (a.receivedAmount ?? 0)
   })
 

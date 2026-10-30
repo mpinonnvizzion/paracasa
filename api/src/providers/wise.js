@@ -1,6 +1,7 @@
 /**
- * Wise public rate endpoint — no API key required for exchange rate quotes.
- * Wise affiliate links use the referral param; swap in your own if available.
+ * Wise public mid-market rate endpoint — no API key required.
+ * We apply Wise's published flat-fee tiers on top of the mid-market rate
+ * since the public rate endpoint doesn't return personalized pricing.
  */
 export async function fetchWise({ amount, from, to }) {
   const url = `https://api.wise.com/v1/rates?source=${from}&target=${to}`
@@ -17,9 +18,11 @@ export async function fetchWise({ amount, from, to }) {
   const rate = Array.isArray(data) ? data[0]?.rate : data?.rate
   if (!rate) throw new Error('No rate in Wise response')
 
-  // Wise fee is typically $0 for personal USD→MXN bank transfers (using balance)
-  // Conservative estimate: $0.50 for debit card sends
-  const fee = amount >= 500 ? 0.5 : 0.5
+  let fee
+  if (amount < 300) fee = 0.59
+  else if (amount < 1000) fee = 1.49
+  else fee = 2.49
+
   const received = (amount - fee) * rate
 
   return {
@@ -28,7 +31,7 @@ export async function fetchWise({ amount, from, to }) {
     rate,
     fee,
     receivedAmount: received,
-    deliveryTime: 'Instant – 1 day',
-    affiliateUrl: `https://wise.com/invite/u/paracasa?amount=${amount}&sourceCurrency=${from}&targetCurrency=${to}`,
+    deliveryTime: 'Instant – 1 business day',
+    affiliateUrl: 'https://wise.com/us/send-money/usd-to-mxn',
   }
 }

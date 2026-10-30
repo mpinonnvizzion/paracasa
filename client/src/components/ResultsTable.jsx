@@ -34,58 +34,85 @@ export default function ResultsTable({ results, loading, query }) {
 
       {!loading && results && (
         <div className="results__cards">
-          {results.map((r, i) => (
-            <article key={r.provider} className={`result-card ${i === 0 ? 'result-card--best' : ''}`}>
-              <div className="result-card__top">
-                <div className="result-card__provider">
-                  <span className="result-card__name">{r.name}</span>
-                  <Badge rank={i + 1} />
-                </div>
-                <div className="result-card__amount">
-                  <span className="result-card__receives">
-                    {r.receivedAmount
-                      ? Number(r.receivedAmount).toLocaleString('en-US', { maximumFractionDigits: 0 })
-                      : '—'}
-                  </span>
-                  <span className="result-card__currency">{query?.to}</span>
-                </div>
-              </div>
+          {results.map((r, i) => {
+            const isBest = i === 0 && !r.isAffiliate && !r.isReference && !r.error && r.receivedAmount != null
+            const cardClass = [
+              'result-card',
+              isBest ? 'result-card--best' : '',
+              r.isReference ? 'result-card--reference' : '',
+              r.isAffiliate ? 'result-card--affiliate' : '',
+            ].filter(Boolean).join(' ')
 
-              <div className="result-card__meta">
-                <div className="result-card__stat">
-                  <span className="result-card__stat-label">Exchange rate</span>
-                  <span className="result-card__stat-val">
-                    {r.rate ? r.rate.toFixed(4) : '—'}
-                  </span>
+            return (
+              <article key={r.provider} className={cardClass}>
+                <div className="result-card__top">
+                  <div className="result-card__provider">
+                    <span className="result-card__name">{r.name}</span>
+                    {r.isReference && (
+                      <span className="result-card__sublabel">Mid-market estimate</span>
+                    )}
+                    {isBest && <Badge rank={1} />}
+                    {!r.isReference && !r.isAffiliate && !isBest && i === 1 && !r.error && (
+                      <Badge rank={2} />
+                    )}
+                  </div>
+                  {r.receivedAmount != null && (
+                    <div className="result-card__amount">
+                      <span className="result-card__receives">
+                        {Number(r.receivedAmount).toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                      </span>
+                      <span className="result-card__currency">{query?.to}</span>
+                    </div>
+                  )}
                 </div>
-                <div className="result-card__stat">
-                  <span className="result-card__stat-label">Fee</span>
-                  <span className="result-card__stat-val">
-                    {r.fee != null ? `$${Number(r.fee).toFixed(2)}` : '—'}
-                  </span>
-                </div>
-                <div className="result-card__stat">
-                  <span className="result-card__stat-label">Delivery</span>
-                  <span className="result-card__stat-val">{r.deliveryTime || '—'}</span>
-                </div>
-              </div>
 
-              {r.affiliateUrl && (
-                <a
-                  href={r.affiliateUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="result-card__cta"
-                >
-                  Send with {r.name}
-                </a>
-              )}
+                {r.receivedAmount != null && (
+                  <div className="result-card__meta">
+                    <div className="result-card__stat">
+                      <span className="result-card__stat-label">Exchange rate</span>
+                      <span className="result-card__stat-val">
+                        {r.rate ? r.rate.toFixed(4) : '—'}
+                      </span>
+                    </div>
+                    <div className="result-card__stat">
+                      <span className="result-card__stat-label">Fee</span>
+                      <span className="result-card__stat-val">
+                        {r.fee != null ? `$${Number(r.fee).toFixed(2)}` : '—'}
+                      </span>
+                    </div>
+                    <div className="result-card__stat">
+                      <span className="result-card__stat-label">Delivery</span>
+                      <span className="result-card__stat-val">{r.deliveryTime || '—'}</span>
+                    </div>
+                  </div>
+                )}
 
-              {r.error && (
-                <p className="result-card__error">Rate unavailable right now</p>
-              )}
-            </article>
-          ))}
+                {r.receivedAmount == null && r.isAffiliate && (
+                  <div className="result-card__meta">
+                    <div className="result-card__stat">
+                      <span className="result-card__stat-label">Delivery</span>
+                      <span className="result-card__stat-val">{r.deliveryTime || '—'}</span>
+                    </div>
+                  </div>
+                )}
+
+                {r.affiliateUrl && (
+                  <a
+                    href={r.affiliateUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="result-card__cta"
+                  >
+                    {r.isAffiliate ? `Check rate on ${r.name}` : `Send with ${r.name}`}
+                  </a>
+                )}
+
+                {r.error && (
+                  <p className="result-card__error">Rate unavailable right now</p>
+                )}
+              </article>
+            )
+          })}
         </div>
       )}
 

@@ -69,6 +69,28 @@
   border-color: var(--leaf);
 }
 
+.result-card--reference {
+  opacity: 0.8;
+}
+
+.result-card--reference .result-card__name,
+.result-card--reference .result-card__receives {
+  color: var(--ink-60);
+}
+
+.result-card__sublabel {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--ink-60);
+  font-style: italic;
+  width: 100%;
+}
+
+.result-card--affiliate .result-card__cta {
+  background: var(--ink-20);
+  color: var(--ink);
+}
+
 .result-card__top {
   display: flex;
   align-items: flex-start;
