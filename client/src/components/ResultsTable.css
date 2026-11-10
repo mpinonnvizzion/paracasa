@@ -87,8 +87,14 @@
 }
 
 .result-card--affiliate .result-card__cta {
-  background: var(--ink-20);
-  color: var(--ink);
+  background: var(--terra);
+  color: var(--white);
+}
+
+.result-card__affiliate-note {
+  font-size: 0.8rem;
+  color: var(--ink-60);
+  font-style: italic;
 }
 
 .result-card__top {

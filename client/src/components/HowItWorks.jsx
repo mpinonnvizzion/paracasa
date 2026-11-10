@@ -9,7 +9,7 @@ const STEPS = [
   {
     n: '2',
     title: 'We compare in real time',
-    body: 'We pull live rates from Wise, Remitly, Western Union and more — including all fees.'
+    body: 'We pull live rates from Wise and more, then link you to Remitly, Western Union and others to compare directly.'
   },
   {
     n: '3',

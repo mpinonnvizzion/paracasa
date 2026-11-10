@@ -26,7 +26,7 @@ export default function ResultsTable({ results, loading, query }) {
           {loading ? 'Finding best rates…' : `Rates for ${formatted}`}
         </h2>
         {!loading && results && (
-          <p className="results__updated">Updated just now · Rates include all fees</p>
+          <p className="results__updated">Updated just now · Live rates where available · Fees included</p>
         )}
       </div>
 
@@ -34,7 +34,7 @@ export default function ResultsTable({ results, loading, query }) {
 
       {!loading && results && (
         <div className="results__cards">
-          {results.map((r, i) => {
+          {results.filter(r => !(r.error && r.provider === 'xe')).map((r, i) => {
             const isBest = i === 0 && !r.isAffiliate && !r.isReference && !r.error && r.receivedAmount != null
             const cardClass = [
               'result-card',
@@ -94,6 +94,12 @@ export default function ResultsTable({ results, loading, query }) {
                       <span className="result-card__stat-val">{r.deliveryTime || '—'}</span>
                     </div>
                   </div>
+                )}
+
+                {r.isAffiliate && (
+                  <p className="result-card__affiliate-note">
+                    Rates vary — check site for your exact amount and fee.
+                  </p>
                 )}
 
                 {r.affiliateUrl && (
