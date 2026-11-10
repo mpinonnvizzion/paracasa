@@ -4,7 +4,7 @@
  * since real providers always price above the pure mid-market rate.
  */
 export async function fetchFrankfurter({ amount, from, to }) {
-  const url = `https://api.frankfurter.app/latest?from=${from}&to=${to}`
+  const url = `https://api.frankfurter.dev/v1/latest?from=${from}&to=${to}`
 
   const res = await fetch(url, {
     headers: { 'Accept': 'application/json' },
